@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Face Detection Visualization</title>
+  <style>
+    #video-container {
+      position: relative;
+      width: 640px;
+      height: 480px;
+    }
+    #video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 640px;
+      height: 480px;
+    }
+    #canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 640px;
+      height: 480px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Camera + Face Detection</h2>
+  <div id="video-container">
+    <img id="video" src="http://localhost:5000/video_feed" />
+    <canvas id="canvas" width="640" height="480"></canvas>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // WebSocket 连接，端口9001与你的后端一致
+    const ws = new WebSocket('ws://localhost:9001');
+
+    ws.onmessage = function(event) {
+      let faces = JSON.parse(event.data);
+
+      // 清空画布
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for(let i=0; i < faces.length; i++) {
+        let face = faces[i];
+
+        let x = face.x * canvas.width;
+        let y = face.y * canvas.height;
+        let w = face.width * canvas.width;
+        let h = face.height * canvas.height;
+
+        ctx.strokeStyle = 'red';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+
+        ctx.font = '16px Arial';
+        ctx.fillStyle = 'yellow';
+        ctx.fillText((face.score * 100).toFixed(1) + '%', x, y - 5);
+      }
+    };
+
+    ws.onopen = () => console.log('WebSocket connected');
+    ws.onclose = () => console.log('WebSocket disconnected');
+    ws.onerror = (err) => console.error('WebSocket error', err);
+  </script>
+</body>
+</html>

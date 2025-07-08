@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="3">
+  <name>originbot_face_identify</name>
+  <version>0.1.0</version>
+  <description>OriginBot face identification ROS2 node.</description>
+  <maintainer email="231830109@smail.nju.edu.com">Your Name</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  
+  <depend>rclcpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>dnn_node</depend>
+  <depend>hbm_img_msgs</depend>
+  <depend>hobot_cv</depend>
+  <depend>opencv4</depend>
+  <depend>originbot_face_identify_msgs</depend>
+
+  
+  <exec_depend>launch</exec_depend>
+  <exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
